@@ -81,7 +81,7 @@ const ContactPage = () => {
                     <p style={{ textAlign: 'center', marginBottom: '1.5rem', color: '#666' }}>
                         Have a question or feedback? We'd love to hear from you!
                     </p>
-                    <form onSubmit={handleSubmit} className="contact-form">
+                    <form onSubmit={handleSubmit} className="contact-form" noValidate>
                         <div className="form-group">
                             <label htmlFor="name">Name:</label>
                             <input
@@ -96,7 +96,7 @@ const ContactPage = () => {
                         <div className="form-group">
                             <label htmlFor="email">Email:</label>
                             <input
-                                type="text"
+                                type="email"
                                 id="email"
                                 name="email"
                                 value={formData.email}
