@@ -441,23 +441,7 @@
     border-color: #667eea;
 }
 
-.submit-btn {
-    background-color: #667eea;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-    font-weight: bold;
-    margin-top: 1rem;
-}
-
-.submit-btn:hover {
-    background-color: #5a6fd8;
-}
-
+.submit-btn,
 .continue-btn {
     background-color: #667eea;
     color: white;
@@ -469,9 +453,13 @@
     font-size: 1rem;
     font-weight: bold;
     margin-top: 1rem;
-    width: 100%;
 }
 
+.submit-btn:hover,
 .continue-btn:hover {
     background-color: #5a6fd8;
+}
+
+.continue-btn {
+    width: 100%;
 }
