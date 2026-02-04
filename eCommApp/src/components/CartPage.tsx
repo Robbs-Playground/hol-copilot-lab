@@ -14,7 +14,7 @@ const CartPage = () => {
         throw new Error('CartContext must be used within a CartProvider');
     }
 
-    const { cartItems, clearCart } = cartContext;
+    const { cartItems, updateItemQuantity, removeFromCart, clearCart } = cartContext;
 
     const handleCheckout = () => {
         setIsCheckingOut(true);
@@ -70,8 +70,36 @@ const CartPage = () => {
                                         <div className="cart-item-info">
                                             <h3>{item.name}</h3>
                                             <p>Price: ${item.price.toFixed(2)}</p>
-                                            <p>Quantity: {item.quantity}</p>
+                                            <div className="quantity-controls">
+                                                <button
+                                                    onClick={() => updateItemQuantity(item.id!, item.quantity - 1)}
+                                                    className="quantity-btn"
+                                                    data-testid="decrease-quantity"
+                                                    aria-label={`Decrease quantity of ${item.name}`}
+                                                >
+                                                    -
+                                                </button>
+                                                <span className="quantity-display" data-testid="quantity-display">
+                                                    {item.quantity}
+                                                </span>
+                                                <button
+                                                    onClick={() => updateItemQuantity(item.id!, item.quantity + 1)}
+                                                    className="quantity-btn"
+                                                    data-testid="increase-quantity"
+                                                    aria-label={`Increase quantity of ${item.name}`}
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
                                         </div>
+                                        <button
+                                            onClick={() => removeFromCart(item.id!)}
+                                            className="remove-btn"
+                                            data-testid="remove-item"
+                                            aria-label={`Remove ${item.name} from cart`}
+                                        >
+                                            Remove
+                                        </button>
                                     </div>
                                 ))}
                             </div>

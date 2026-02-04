@@ -45,6 +45,8 @@ const mockCartItems: CartItem[] = [
 const mockCartContext = {
     cartItems: mockCartItems,
     addToCart: vi.fn(),
+    updateItemQuantity: vi.fn(),
+    removeFromCart: vi.fn(),
     clearCart: vi.fn()
 };
 
@@ -71,7 +73,7 @@ describe('CartPage', () => {
         expect(screen.getByText('Test Product 2')).toBeInTheDocument();
         expect(screen.getByText('Price: $29.99')).toBeInTheDocument();
         expect(screen.getByText('Price: $49.99')).toBeInTheDocument();
-        expect(screen.getByText('Quantity: 2')).toBeInTheDocument();
-        expect(screen.getByText('Quantity: 1')).toBeInTheDocument();
+        expect(screen.getAllByTestId('quantity-display')[0]).toHaveTextContent('2');
+        expect(screen.getAllByTestId('quantity-display')[1]).toHaveTextContent('1');
     });
 });
