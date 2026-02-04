@@ -372,8 +372,13 @@
     justify-content: center;
 }
 
-.quantity-btn:hover {
+.quantity-btn:hover:not(:disabled) {
     background-color: #5a6fd8;
+}
+
+.quantity-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .quantity-display {
@@ -394,8 +399,13 @@
     font-size: 0.9rem;
 }
 
-.remove-btn:hover {
+.remove-btn:hover:not(:disabled) {
     background-color: #c82333;
+}
+
+.remove-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .checkout-btn {

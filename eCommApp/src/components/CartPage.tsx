@@ -72,10 +72,11 @@ const CartPage = () => {
                                             <p>Price: ${item.price.toFixed(2)}</p>
                                             <div className="quantity-controls">
                                                 <button
-                                                    onClick={() => updateItemQuantity(item.id!, item.quantity - 1)}
+                                                    onClick={() => item.id && updateItemQuantity(item.id, item.quantity - 1)}
                                                     className="quantity-btn"
                                                     data-testid="decrease-quantity"
                                                     aria-label={`Decrease quantity of ${item.name}`}
+                                                    disabled={!item.id}
                                                 >
                                                     -
                                                 </button>
@@ -83,20 +84,22 @@ const CartPage = () => {
                                                     {item.quantity}
                                                 </span>
                                                 <button
-                                                    onClick={() => updateItemQuantity(item.id!, item.quantity + 1)}
+                                                    onClick={() => item.id && updateItemQuantity(item.id, item.quantity + 1)}
                                                     className="quantity-btn"
                                                     data-testid="increase-quantity"
                                                     aria-label={`Increase quantity of ${item.name}`}
+                                                    disabled={!item.id}
                                                 >
                                                     +
                                                 </button>
                                             </div>
                                         </div>
                                         <button
-                                            onClick={() => removeFromCart(item.id!)}
+                                            onClick={() => item.id && removeFromCart(item.id)}
                                             className="remove-btn"
                                             data-testid="remove-item"
                                             aria-label={`Remove ${item.name} from cart`}
+                                            disabled={!item.id}
                                         >
                                             Remove
                                         </button>
