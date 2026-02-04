@@ -9,6 +9,7 @@ const ProductsPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
     const cartContext = useContext(CartContext);
 
     if (!cartContext) {
@@ -68,14 +69,27 @@ const ProductsPage = () => {
         );
     }
 
+    const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="app">
             <Header />
             <main className="main-content">
                 <div className="products-container">
                     <h2>Our Products</h2>
+                    <div className="search-bar">
+                        <input
+                            type="text"
+                            placeholder="Search products..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="search-input"
+                        />
+                    </div>
                     <div className="products-grid">
-                        {products.map((product) => (
+                        {filteredProducts.map((product) => (
                             <div key={product.id || product.name} className="product-card">
                                 {product.image && (
                                     <img

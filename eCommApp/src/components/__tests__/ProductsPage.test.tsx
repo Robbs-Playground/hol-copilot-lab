@@ -174,4 +174,50 @@ describe('ProductsPage', () => {
     expect(consoleSpy).toHaveBeenCalled();
     consoleSpy.mockRestore();
   });
+
+  it('filters products based on search query', async () => {
+    const user = userEvent.setup();
+    renderWithCartContext();
+
+    await screen.findByText(/our products/i);
+
+    // Verify all products are displayed initially
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.getByText('Grapes')).toBeInTheDocument();
+    expect(screen.getByText('Orange')).toBeInTheDocument();
+    expect(screen.getByText('Pear')).toBeInTheDocument();
+
+    // Search for "apple"
+    const searchInput = screen.getByPlaceholderText(/search products/i);
+    await user.type(searchInput, 'apple');
+
+    // Only Apple should be displayed
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.queryByText('Grapes')).not.toBeInTheDocument();
+    expect(screen.queryByText('Orange')).not.toBeInTheDocument();
+    expect(screen.queryByText('Pear')).not.toBeInTheDocument();
+
+    // Clear search
+    await user.clear(searchInput);
+
+    // All products should be displayed again
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.getByText('Grapes')).toBeInTheDocument();
+    expect(screen.getByText('Orange')).toBeInTheDocument();
+    expect(screen.getByText('Pear')).toBeInTheDocument();
+  });
+
+  it('search is case insensitive', async () => {
+    const user = userEvent.setup();
+    renderWithCartContext();
+
+    await screen.findByText(/our products/i);
+
+    const searchInput = screen.getByPlaceholderText(/search products/i);
+    await user.type(searchInput, 'GRAPE');
+
+    // Grapes should be found (case insensitive)
+    expect(screen.getByText('Grapes')).toBeInTheDocument();
+    expect(screen.queryByText('Apple')).not.toBeInTheDocument();
+  });
 });
