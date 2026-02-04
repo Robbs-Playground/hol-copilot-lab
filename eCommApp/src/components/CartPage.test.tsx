@@ -61,6 +61,8 @@ describe('CartPage', () => {
         vi.clearAllMocks();
     });
 
+    // Verify that an empty cart message is displayed when the cart is empty.
+
     it('displays cart items when cart has items', () => {
         renderWithCartContext();
         

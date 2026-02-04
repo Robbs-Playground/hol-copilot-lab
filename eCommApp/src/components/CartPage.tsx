@@ -29,14 +29,14 @@ const CartPage = () => {
 
     if (orderProcessed) {
         return (
-            <div className="app">
+            <div className="app" data-testid="cart-page">
                 <Header />
                 <main className="main-content">
-                    <div className="order-processed-container">
+                    <div className="order-processed-container" data-testid="order-processed">
                         <h2>Your order has been processed!</h2>
-                        <div className="cart-items-grid">
+                        <div className="cart-items-grid" data-testid="processed-items-grid">
                             {processedItems.map(item => (
-                                <div key={item.id} className="cart-item-card">
+                                <div key={item.id} className="cart-item-card" data-testid="processed-item-card">
                                     <img src={`products/productImages/${item.image}`} alt={item.name} className="cart-item-image" />
                                     <div className="cart-item-info">
                                         <h3>{item.name}</h3>
@@ -54,18 +54,18 @@ const CartPage = () => {
     }
 
     return (
-        <div className="app">
+        <div className="app" data-testid="cart-page">
             <Header />
             <main className="main-content">
-                <div className="cart-container">
+                <div className="cart-container" data-testid="cart-container">
                     <h2>Your Cart</h2>
                     {cartItems.length === 0 ? (
-                        <p>Your cart is empty.</p>
+                        <p data-testid="cart-empty">Your cart is empty.</p>
                     ) : (
                         <>
-                            <div className="cart-items-grid">
+                            <div className="cart-items-grid" data-testid="cart-items-grid">
                                 {cartItems.map(item => (
-                                    <div key={item.id} className="cart-item-card">
+                                    <div key={item.id} className="cart-item-card" data-testid="cart-item-card">
                                         <img src={`products/productImages/${item.image}`} alt={item.name} className="cart-item-image" />
                                         <div className="cart-item-info">
                                             <h3>{item.name}</h3>
@@ -75,7 +75,13 @@ const CartPage = () => {
                                     </div>
                                 ))}
                             </div>
-                            <button onClick={handleCheckout} className="checkout-btn">Checkout</button>
+                            <button
+                                onClick={handleCheckout}
+                                className="checkout-btn"
+                                data-testid="checkout-btn"
+                            >
+                                Checkout
+                            </button>
                         </>
                     )}
                 </div>
