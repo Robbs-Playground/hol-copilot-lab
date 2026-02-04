@@ -527,6 +527,12 @@
     border-color: #667eea;
 }
 
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
 .submit-btn,
 .continue-btn {
     background-color: #667eea;
