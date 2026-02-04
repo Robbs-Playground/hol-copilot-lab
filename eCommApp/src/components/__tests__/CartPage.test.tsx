@@ -21,11 +21,13 @@ vi.mock('../CheckoutModal', () => ({
   ),
 }));
 
-function renderWithCart(cartItems: CartItem[], clearCart = vi.fn()) {
+function renderWithCart(cartItems: CartItem[], clearCart = vi.fn(), updateItemQuantity = vi.fn(), removeFromCart = vi.fn()) {
   return {
     clearCart,
+    updateItemQuantity,
+    removeFromCart,
     ...render(
-      <CartContext.Provider value={{ cartItems, clearCart } as any}>
+      <CartContext.Provider value={{ cartItems, clearCart, updateItemQuantity, removeFromCart } as any}>
         <CartPage />
       </CartContext.Provider>
     ),
@@ -70,10 +72,15 @@ describe('CartPage', () => {
     expect(screen.getByText('Price: $0.00')).toBeInTheDocument();
 
     // Quantities (including very large)
-    expect(screen.getByText('Quantity: 2')).toBeInTheDocument();
-    expect(screen.getByText('Quantity: 999')).toBeInTheDocument();
+    expect(screen.getAllByTestId('quantity-display')[0]).toHaveTextContent('2');
+    expect(screen.getAllByTestId('quantity-display')[1]).toHaveTextContent('999');
 
     expect(screen.getByTestId('checkout-btn')).toBeInTheDocument();
+    
+    // Verify quantity controls are present
+    expect(screen.getAllByTestId('decrease-quantity')).toHaveLength(2);
+    expect(screen.getAllByTestId('increase-quantity')).toHaveLength(2);
+    expect(screen.getAllByTestId('remove-item')).toHaveLength(2);
   });
 
   it('opens the checkout modal when Checkout is clicked', async () => {
@@ -133,5 +140,35 @@ describe('CartPage', () => {
 
     expect(screen.getByTestId('order-processed')).toBeInTheDocument();
     expect(screen.queryByTestId('cart-container')).not.toBeInTheDocument();
+  });
+
+  it('increases quantity when + button is clicked', async () => {
+    const user = userEvent.setup();
+    const { updateItemQuantity } = renderWithCart(sampleItems);
+
+    const increaseButtons = screen.getAllByTestId('increase-quantity');
+    await user.click(increaseButtons[0]);
+
+    expect(updateItemQuantity).toHaveBeenCalledWith(1, 3);
+  });
+
+  it('decreases quantity when - button is clicked', async () => {
+    const user = userEvent.setup();
+    const { updateItemQuantity } = renderWithCart(sampleItems);
+
+    const decreaseButtons = screen.getAllByTestId('decrease-quantity');
+    await user.click(decreaseButtons[0]);
+
+    expect(updateItemQuantity).toHaveBeenCalledWith(1, 1);
+  });
+
+  it('removes item when remove button is clicked', async () => {
+    const user = userEvent.setup();
+    const { removeFromCart } = renderWithCart(sampleItems);
+
+    const removeButtons = screen.getAllByTestId('remove-item');
+    await user.click(removeButtons[0]);
+
+    expect(removeFromCart).toHaveBeenCalledWith(1);
   });
 });
